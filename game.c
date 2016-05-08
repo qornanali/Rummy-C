@@ -12,8 +12,8 @@ void PrepareCard(){
 			AddCard(&card_on_deck,newCard);
 		}
 	}
-//	shuffledeck();
-//	givecardtoplayers();
+	shuffledeck();
+	givecardtoplayers();
 }
 
 void PrepareInfoPlayer(infoPlayer * X){
@@ -98,5 +98,24 @@ void console(){
 	if(SizeListCard(card_on_off)>0){
 		puts("off : ");
 		ListCardInfo(card_on_off);	
+	}
+}
+
+void play(){
+	while(roundcount<maxround || Score(player_who_play)<maxscore){
+		int i = 1;	
+		while(SizeListCard(Hand(player_who_play))>0 && SizeListCard(card_on_deck)>0){
+			MoveCard(&card_on_deck,&Hand(player_who_play),Card(First(card_on_deck)));
+			MoveCard(&Hand(player_who_play),&card_on_off,Card(First(Hand(player_who_play))));
+			getch();
+			menu_game(0,0);
+			player_who_play = Next(player_who_play);
+			i++;
+			if(player_who_play == NULL){
+				player_who_play = First(ListPlayers);
+				i = 1;
+			}
+		}
+		break;	
 	}
 }

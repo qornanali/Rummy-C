@@ -16,8 +16,6 @@
 #define key_right 77
 #define key_enter 13
 #define key_esc 27
-#define structcardcol 9
-#define structcardrow 7
 #define sikukananbawah 217
 #define sikukiriatas 218
 #define sikukananatas 191
@@ -128,18 +126,25 @@ void newsession();
 void console();
 void shuffledeck();
 void givecardtoplayers();
+void play();
 
 /*ui.c*/
 void slp(int ms);
 void gotoxy(int x, int y);
 void cls();
 void drawshape(int x, int y, int v, int h, int type);
-void blankspace(int x, int y, int v, int h);
+void drawsomechar(int x, int y, int v, int h, char c);
 void menu_main(int x, int y);
 int cursor(int x, int y, int xp, int yp, int key1, int key2, int chcursor, int option);
 void input_dataplayer(int x, int y);
 void input_datasession(int x, int y);
-void showmycard(infoCard card, int x, int y);
+void menu_game(int x, int y);
+void showhand(int show, addressCard first, int x, int y, int xp, int yp);
+void showcard(infoCard card, int x, int y);
+void showblankcard(int x, int y);
+void showdeck(int x, int y);
+void showoff(int x, int y);
+void showmeld(int x, int y);
 
 /*bot.c*/
 
@@ -150,14 +155,5 @@ ListCard card_on_off;
 ListPlayer ListPlayers;
 addressPlayer player_who_play,winner;
 int roundcount,maxround,maxscore,cheaton;
-//char structmycard[structcardrow][structcardcol] = {
-//{sikukiriatas,hor,hor,hor,hor,hor,hor,hor,sikukananatas},
-//{ver,'X','X',' ',' ',' ',' ',' ',ver},
-//{ver,' ',' ',' ',' ',' ',' ',' ',ver},
-//{ver,' ',' ',' ','C',' ',' ',' ',ver},
-//{ver,' ',' ',' ',' ',' ',' ',' ',ver},
-//{ver,' ',' ',' ',' ',' ','X','X',ver},
-//{sikukiribawah,hor,hor,hor,hor,hor,hor,hor,sikukananbawah},
-//};
 
 #endif

@@ -6,6 +6,7 @@ void gotoxy(int x, int y){
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);	
 }
 
+
 void slp(int ms){
 	Sleep(ms);
 }
@@ -64,13 +65,12 @@ void drawshape(int x,int y,int v, int h, int type){
 	}
 }
 
-void blankspace(int x, int y, int v, int h){
-	gotoxy(x,y);
+void drawsomechar(int x, int y, int v, int h, char c){
 	int i,j;
-	for(i=0;i<h;i++){
-		for(j=0;j<v;j++){
-			gotoxy(i,j);
-			printf(" ");
+	for(i=0;i<v;i++){
+		for(j=0;j<h;j++){
+			gotoxy(x+j,y+i);
+			printf("%c",c);
 		}
 	}
 }
@@ -94,6 +94,8 @@ void menu_main(int x, int y){
 	switch(pilihan){
 		case 1 :
 			newsession();
+			menu_game(0,0);
+			play();
 			break;
 	}
 }
@@ -186,57 +188,117 @@ void input_datasession(int x, int y){
 	scanf("%d",&maxscore);
 }
 
-void menu_game(){
-	
+void menu_game(int x, int y){
+	cls();
+	drawshape(x+3,y+4,100,35,1);
+	addressPlayer P = First(ListPlayers);
+	int n = SizeListPlayer(ListPlayers);
+	showhand(1,First(Hand(P)),x+32,y+36,5,0);
+	if(n > 1){
+		P = Next(P);
+		showhand(cheaton,First(Hand(P)),x,y+9,0,3);
+	}
+	if(n > 2){
+		P = Next(P);
+		showhand(cheaton,First(Hand(P)),x+32,y,5,0);
+	}
+	if(n > 3){
+		P = Next(P);
+		showhand(cheaton,First(Hand(P)),x+100,y+9,0,3);
+	}
+	showdeck(x+20,y+10);
+	showoff(x+20,y+22);
 }
 
-//void showmycard(infoCard card, int x, int y){
-//	int tmpx = x;
-//	int tmpy = y;
-//	int i,j;
-//	for(i = 0; i < structcardrow; i++){
-//		tmpy = y;
-//		for( j = 0; j < structcardcol; j++){
-//			gotoxy(tmpx,tmpy);
-//			if(structmycard[i][j]=='X'){
-//				if(i==structcardrow-2 && card.number!=10){
-//					printf(" ");
-//				}
-//				switch(card.number){
-//					case 1 :
-//						printf("A");
-//						break;
-//					case 11 :
-//						printf("J");
-//						break;
-//					case 12 :
-//						printf("Q");
-//						break;
-//					case 13 :
-//						printf("K");
-//						break;
-//					default :
-//						printf("%d",card.number);	
-//				}
-//				if(i!=structcardrow-2){
-//					printf(" ");
-//				}
-//				j++;
-//				tmpy ++;
-//			}else{
-//				if(structmycard[i][j]=='C'){
-//					printf("%c",deftypecard(card.type));
-//				}
-//				else
-//				if(structmycard[i][j]!='/'){
-//					printf("%c",structmycard[i][j]);
-//				}
-//				else{
-//					printf(" ");
-//				}
-//			}
-//			tmpy ++;
-//		}
-//		tmpx ++;
-//	}
-//}
+
+void showhand(int show, addressCard first, int x, int y, int xp, int yp){
+	int x1,y1;
+	x1 = x;
+	y1 = y;
+	addressCard card = first;
+	while(card != NULL){
+		gotoxy(x1,y1);
+		if(show==1){
+			showcard(Card(card),x1,y1);
+		}else{
+			showblankcard(x1,y1);
+		}
+		x1 += xp;
+		y1 += yp;
+		card = Next(card);
+	}
+}
+
+void showblankcard(int x, int y){
+	drawsomechar(x+1,y+1,7,7,'/');
+	drawshape(x,y,7,7,2);
+}
+
+void showcard(infoCard card, int x, int y){
+	drawsomechar(x+1,y+1,7,7,' ');
+	drawshape(x,y,7,7,2);
+	gotoxy(x+4,y+4);	
+	printf("%c",deftypecard(card.type));
+	gotoxy(x+1,y+1);
+	switch(card.number){
+		case 1 :
+			printf("A");
+			break;
+		case 11 :
+			printf("J");
+			break;
+		case 12 :
+			printf("Q");
+			break;
+		case 13 :
+			printf("K");
+			break;
+		default :
+			printf("%d",card.number);
+			break;	
+	}
+	if(card.number==10){
+		gotoxy(x+6,y+7);
+	}else{
+		gotoxy(x+7,y+7);
+	}
+	switch(card.number){
+		case 1 :
+			printf("A");
+			break;
+		case 11 :
+			printf("J");
+			break;
+		case 12 :
+			printf("Q");
+			break;
+		case 13 :
+			printf("K");
+			break;
+		default :
+			printf("%d",card.number);
+			break;	
+	}
+}
+
+void showdeck(int x, int y){
+	int n = SizeListCard(card_on_deck);
+	if(n>0){
+		gotoxy(x,y);
+		printf("Cangkulan %d",n);
+		showblankcard(x,y+1);
+	}
+}
+
+void showoff(int x, int y){
+	int n = SizeListCard(card_on_off);
+	gotoxy(x,y);
+	printf("Buangan %d",n);
+	addressCard first = First(card_on_off);
+	if(n>7){
+		n -= 7;
+		first = TraceListCard(card_on_off,n);
+	}
+	showhand(1,first,x,y+1,5,0);
+}
+
