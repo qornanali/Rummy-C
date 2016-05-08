@@ -55,6 +55,7 @@
 #define Score(P) (P)->info.score
 #define Hand(P) (P)->info.card_on_hand
 #define Meld(P) (P)->info.card_on_meld
+#define Bot(P) (P)->info.bot
 #define NextPlayer(P) (P)->next
 
 /*ADT*/
@@ -76,6 +77,7 @@ typedef struct {
 
 addressCard AllocCard (infoCard X);
 addressCard SearchCard (ListCard L, infoCard X);
+addressCard TraceListCard(ListCard L, int index);
 int AddCard (ListCard * L, infoCard X);
 int SizeListCard(ListCard L);
 int SameCard(infoCard X, infoCard Y);
@@ -91,6 +93,7 @@ void SwapCard(infoCard * X, infoCard * Y);
 typedef struct{
 	string * name;
 	int score;
+	char bot;
 	ListCard card_on_hand;
 	ListCard card_on_meld;
 } infoPlayer;
@@ -113,14 +116,30 @@ void DeletePlayer(ListPlayer * L, infoPlayer X);
 void ListPlayerInfo(ListPlayer L);
 
 /*lib.c*/
-void slp(int ms);
+int random(int a, int b);
+char deftypecard(int type);
 
 /*game.c*/
-void PrepareDeck();
+void PrepareCard();
+void PreparePlayer(string * name, char bot);
+void PrepareInfoPlayer(infoPlayer * X);
+void newround();
+void newsession();
+void console();
+void shuffledeck();
+void givecardtoplayers();
 
 /*ui.c*/
+void slp(int ms);
 void gotoxy(int x, int y);
 void cls();
+void drawshape(int x, int y, int v, int h, int type);
+void blankspace(int x, int y, int v, int h);
+void menu_main(int x, int y);
+int cursor(int x, int y, int xp, int yp, int key1, int key2, int chcursor, int option);
+void input_dataplayer(int x, int y);
+void input_datasession(int x, int y);
+void showmycard(infoCard card, int x, int y);
 
 /*bot.c*/
 
@@ -128,7 +147,17 @@ void cls();
 /*Global Variable*/
 ListCard card_on_deck;
 ListCard card_on_off;
-addressPlayer player_who_play;
-int session,round,maxsession,maxscore,cheaton,winnersession;
+ListPlayer ListPlayers;
+addressPlayer player_who_play,winner;
+int roundcount,maxround,maxscore,cheaton;
+//char structmycard[structcardrow][structcardcol] = {
+//{sikukiriatas,hor,hor,hor,hor,hor,hor,hor,sikukananatas},
+//{ver,'X','X',' ',' ',' ',' ',' ',ver},
+//{ver,' ',' ',' ',' ',' ',' ',' ',ver},
+//{ver,' ',' ',' ','C',' ',' ',' ',ver},
+//{ver,' ',' ',' ',' ',' ',' ',' ',ver},
+//{ver,' ',' ',' ',' ',' ','X','X',ver},
+//{sikukiribawah,hor,hor,hor,hor,hor,hor,hor,sikukananbawah},
+//};
 
 #endif

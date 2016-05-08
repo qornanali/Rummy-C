@@ -88,7 +88,10 @@ void DeletePlayer(ListPlayer * L, infoPlayer X){
 void ListPlayerInfo(ListPlayer L){
 	addressPlayer P = First(L);
 	while(P != NULL){
-	 		printf("%s,%d\n",Name(P),Score(P));
+	 		printf("Player %s\nScore %d\n",Name(P),Score(P));
+			if(isbot(Bot(P))==1){
+				puts("is Bot");
+			}
 			if(SizeListCard(Hand(P))>0){
 				puts("hand : ");
 				ListCardInfo(Hand(P));	
@@ -97,8 +100,9 @@ void ListPlayerInfo(ListPlayer L){
 				puts("meld : ");
 				ListCardInfo(Meld(P));	
 			}
+			printf("\n.\n");
 	 		P = Next(P);
 	}
- 	printf("size = %d",SizeListPlayer(L));
+ 	printf("size player %d",SizeListPlayer(L));
 }
 

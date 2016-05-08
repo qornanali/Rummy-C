@@ -69,7 +69,7 @@ void DeAllocCard (addressCard P){
 }
 void DeleteCard(ListCard * L, infoCard X){
 	addressCard PDel = First(*L);
-	addressCard Prec;
+	addressCard Prec = NULL;
 	int found = 0;
 	while(PDel != NULL && found == 0){
 		if(SameCard(Card(PDel),X) == 1){
@@ -86,6 +86,7 @@ void DeleteCard(ListCard * L, infoCard X){
 		if (Prec == NULL){ 
 			First(*L) = Next(PDel); 
 		}else{ 
+		printf("3");
 			Next(Prec) = Next(PDel); 
 		}
  		Next(PDel) = NULL;
@@ -102,7 +103,7 @@ void ListCardInfo(ListCard L){
 	 		printf("%d,%d\n",Number(P),Type(P));
 	 		P = Next(P);
 	}
- 	printf("size = %d",SizeListCard(L));
+ 	printf("size card %d",SizeListCard(L));
 }
 void SwapCard(infoCard * X, infoCard * Y){
 	infoCard temp;
@@ -114,3 +115,12 @@ void SwapCard(infoCard * X, infoCard * Y){
 	Y->type = temp.type;
 }
 
+addressCard TraceListCard(ListCard L, int index){
+	addressCard P = First(L);
+ 	int i = 1;
+ 	while ((P != NULL) && i < index){
+	 	P = Next(P);
+		i++;	
+ 	}
+ 	return (P);
+}
