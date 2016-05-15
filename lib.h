@@ -86,6 +86,7 @@ void DeleteCard(ListCard * L, infoCard X);
 void MoveCard(ListCard * L1, ListCard * L2, infoCard X);
 void ListCardInfo(ListCard L);
 void SwapCard(infoCard * X, infoCard * Y);
+void sortcard(ListCard * L, int opt);
 
 /*listplayer.c*/
 typedef struct{
@@ -116,17 +117,23 @@ void ListPlayerInfo(ListPlayer L);
 /*lib.c*/
 int random(int a, int b);
 char deftypecard(int type);
+int calcscore(infoPlayer P);
+int point(infoCard C);
 
 /*game.c*/
 void PrepareCard();
 void PreparePlayer(string * name, char bot);
 void PrepareInfoPlayer(infoPlayer * X);
-void newround();
+void newround(addressPlayer firstplayer);
+void doMeld(ListCard * L1, ListCard * L2, infoCard C, int n);
+void doDraw(ListCard * L);
+void doOff(ListCard * L, infoCard C1);
 void newsession();
 void console();
 void shuffledeck();
 void givecardtoplayers();
 void play();
+int checkmeld(ListCard L);
 
 /*ui.c*/
 void slp(int ms);
@@ -145,15 +152,17 @@ void showblankcard(int x, int y);
 void showdeck(int x, int y);
 void showoff(int x, int y);
 void showmeld(int x, int y);
+void playermenu(int x, int y);
+void choosefromoff();
 
 /*bot.c*/
-
+void botmove();
 
 /*Global Variable*/
-ListCard card_on_deck;
-ListCard card_on_off;
+ListCard card_on_deck,card_on_off,temp_card;
 ListPlayer ListPlayers;
 addressPlayer player_who_play,winner;
-int roundcount,maxround,maxscore,cheaton;
+int roundcount,maxround,maxscore,cheaton,endround,endsession;
+
 
 #endif

@@ -3,6 +3,7 @@
 void PrepareCard(){
 	CreateListCard(&card_on_deck);
 	CreateListCard(&card_on_off);
+	CreateListCard(&temp_card);
 	int i,j;
 	for(i = 1; i <= 4; i++){
 		for(j = 1; j <= 13; j++){
@@ -34,17 +35,17 @@ void PreparePlayer(string * name, char bot){
 }
 
 void newsession(){
+	endsession = 0;
 	roundcount = 0;
 	cheaton = 0;
 	input_dataplayer(3,3);
 	input_datasession(3,3);
-	player_who_play = First(ListPlayers);
-	newround();
+	newround(First(ListPlayers));
 	console();
 }
 
-void newround(){
-	PrepareCard();
+void newround(addressPlayer firstplayer){
+	player_who_play = firstplayer;
 	if(roundcount!=0){
 		addressPlayer P = First(ListPlayers);
 		while(P != NULL){
@@ -52,6 +53,8 @@ void newround(){
 			P = Next(P);
 		}
 	}
+	PrepareCard();
+	endround = 0;
 	roundcount++;
 }
 
@@ -102,20 +105,62 @@ void console(){
 }
 
 void play(){
-	while(roundcount<maxround || Score(player_who_play)<maxscore){
+	while(endsession==0){
 		int i = 1;	
-		while(SizeListCard(Hand(player_who_play))>0 && SizeListCard(card_on_deck)>0){
-			MoveCard(&card_on_deck,&Hand(player_who_play),Card(First(card_on_deck)));
-			MoveCard(&Hand(player_who_play),&card_on_off,Card(First(Hand(player_who_play))));
+		while(endround==0){
+			if(Bot(player_who_play) == 'Y'){
+				botmove();
+			}else{
+				playermenu(50,10);
+				//sortcard(&Hand(player_who_play),1);
+			}
+		
 			getch();
 			menu_game(0,0);
-			player_who_play = Next(player_who_play);
-			i++;
-			if(player_who_play == NULL){
-				player_who_play = First(ListPlayers);
-				i = 1;
+			if(SizeListCard(card_on_deck)==0 || SizeListCard(Hand(player_who_play))==0){
+				endround = 1;
+			}else{
+				player_who_play = Next(player_who_play);
+				i++;
+				if(player_who_play == NULL){
+					player_who_play = First(ListPlayers);
+					i = 1;
+				}
 			}
 		}
-		break;	
+		addressPlayer P = First(ListPlayers);
+		addressPlayer biggerscore = P;
+		while(P != NULL){
+			if(calcscore(Player(biggerscore))<calcscore(Player(P))){
+				biggerscore = P;
+			}
+			Score(P) += calcscore(Player(P));
+			P = Next(P);
+		}
+		if(roundcount>maxround ||  Score(player_who_play)>=maxscore){
+			endsession = 1;
+		}else{
+			newround(biggerscore);	
+		}
 	}
 }
+
+
+void doMeld(ListCard * L1, ListCard * L2, infoCard C, int n){
+	addressCard card = SearchCard(*L1,C);
+	while((n--) && (card != NULL)){
+		MoveCard(L1,L2,Card(card));
+		card = Next(card);
+	}
+}
+
+void doDraw(ListCard * L){
+	MoveCard(&card_on_deck,L,Card(First(card_on_deck)));
+}
+
+void doOff(ListCard * L, infoCard C1){
+	MoveCard(L,&card_on_off,C1);
+}
+
+
+

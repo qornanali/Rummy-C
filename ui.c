@@ -208,6 +208,7 @@ void menu_game(int x, int y){
 	}
 	showdeck(x+20,y+10);
 	showoff(x+20,y+22);
+	showmeld(x+4,y+50);
 }
 
 
@@ -300,5 +301,108 @@ void showoff(int x, int y){
 		first = TraceListCard(card_on_off,n);
 	}
 	showhand(1,first,x,y+1,5,0);
+}
+
+void showmeld(int x, int y){
+	gotoxy(x,y);
+	int i = 1;
+	printf("Kartu yang sudah selesai : ");
+	addressPlayer P = First(ListPlayers);
+	while(P != NULL){
+		gotoxy(x,y+i);
+		printf("%s : ",Name(P));
+		addressCard C = First(Meld(P));
+		while(C != NULL){
+			switch(Number(C)){
+				case 1 :
+					printf("A");
+					break;
+				case 11 :
+					printf("J");
+					break;
+				case 12 :
+					printf("Q");
+					break;
+				case 13 :
+					printf("K");
+					break;
+				default :
+					printf("%d",Number(C));
+					break;
+			}
+			printf("%c ",deftypecard(Type(C)));
+			C = Next(C);
+		}
+		P = Next(P);
+		i++;
+	}
+}
+
+void playermenu(int x, int y){
+	int sudahbuang = 0, sudahambil = 0;
+	drawshape(x,y,17,8,1);
+	gotoxy(x+2,y+2);
+	printf("Cangkul Kartu");
+	gotoxy(x+2,y+3);
+	printf("Ambil Kartu");
+	gotoxy(x+2,y+4);
+	printf("Urut Angka");
+	gotoxy(x+2,y+5);
+	printf("Urut Tipe");
+	gotoxy(x+2,y+6);
+	printf("Simpan Kartu");
+	gotoxy(x+2,y+7);
+	printf("Buang Kartu");
+	while(sudahbuang==0 || sudahambil==0){
+		int pilihan = cursor(x+16,y+2,0,1,key_down,key_up,leftcursor,6);
+		switch(pilihan){
+			case 1 :
+				if(sudahambil==0){
+					doDraw(&Hand(player_who_play));
+					showhand(1,First(Hand(player_who_play)),32,36,5,0);
+					showdeck(20,10);
+					sudahambil = 1;	
+				}
+				break;
+			case 2 :
+				if(sudahambil==0){
+//					int i = 1, n = 0, j = 1;
+//					n = SizeListCard(card_on_off);
+//					if(n>7){
+//						i += n - 7; 
+//						n = 7;
+//					}
+//					int pilihan = cursor(20,22,3,0,key_left,key_right,upcursor,n);
+//					addressCard C = TraceListCard(card_on_off,i);
+//					addressCard Prev = TraceListCard(card_on_off,i-1);
+//					Next(Prev) = NULL;
+//					
+//					sudahambil = 1;
+				}
+				break;
+			case 3 :
+				sortcard(&Hand(player_who_play),1);
+				showhand(1,First(Hand(player_who_play)),32,36,5,0);
+				break;
+			case 4 :
+				sortcard(&Hand(player_who_play),2);
+				showhand(1,First(Hand(player_who_play)),32,36,5,0);
+				break;
+			case 5 :
+				doMeld(&Hand(player_who_play),&Meld(player_who_play),Card(First(Hand(player_who_play))),1);
+				showmeld(4,50);
+				break;
+			case 6 :
+				if(sudahbuang==0 && sudahambil==1){
+					int n = SizeListCard(Hand(player_who_play));
+					int i = cursor(34,45,5,0,key_right,key_left,upcursor,n);
+					addressCard C = TraceListCard(Hand(player_who_play),i);
+					sudahbuang = 1;
+					doOff(&Hand(player_who_play),Card(C));
+				}
+				break;
+		}
+		drawsomechar(x+16,y+2,6,1,' ');
+	}
 }
 

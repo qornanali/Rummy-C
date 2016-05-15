@@ -94,8 +94,29 @@ void DeleteCard(ListCard * L, infoCard X){
 	}
 }
 void MoveCard(ListCard * L1, ListCard * L2, infoCard X){
-	AddCard(L2,X);
-	DeleteCard(L1,X);
+	addressCard P = First((*L1));
+	addressCard Prec = NULL;
+ 	int found = 0;
+ 	while ((P != NULL) && (found == 0)){
+ 		if(SameCard(Card(P),X)==1){
+ 			found = 1;
+		}else{
+			Prec = P;
+			P = Next(P);
+		}
+ 	}
+ 	if(found == 1){
+		if (Prec == NULL && Next(P) == NULL){ 
+			First((*L1)) = NULL; 
+		}else 
+		if (Prec == NULL){ 
+			First((*L1)) = Next(P); 
+		}else{ 
+			Next(Prec) = Next(P); 
+		}
+	}
+	Next(P) = First((*L2));
+	First((*L2)) = P;
 }
 void ListCardInfo(ListCard L){
 	addressCard P = First(L);
@@ -105,6 +126,7 @@ void ListCardInfo(ListCard L){
 	}
  	printf("size card %d",SizeListCard(L));
 }
+
 void SwapCard(infoCard * X, infoCard * Y){
 	infoCard temp;
 	temp.number = X->number;
@@ -123,4 +145,43 @@ addressCard TraceListCard(ListCard L, int index){
 		i++;	
  	}
  	return (P);
+}
+
+void sortcard(ListCard * L, int opt){
+	addressCard C1,C2;
+	C1 = First((*L));
+	if(opt==1){
+		while(C1 != NULL){
+			C2 = First((*L));
+			while(C2 != NULL){
+				if(Number(C1)<Number(C2)){
+					SwapCard(&Card(C1),&Card(C2));
+				}
+				C2 = Next(C2);
+			}
+			C1 = Next(C1);
+		}
+	}else{
+		while(C1 != NULL){
+			C2 = First((*L));
+			while(C2 != NULL){
+				if(Type(C1)<Type(C2)){
+					SwapCard(&Card(C1),&Card(C2));
+				}
+				C2 = Next(C2);
+			}
+			C1 = Next(C1);
+		}
+		C1 = First((*L));
+		while(C1 != NULL){
+			C2 = First((*L));
+			while(C2 != NULL){
+				if(Type(C1)==Type(C2) && Number(C1)<Number(C2)){
+					SwapCard(&Card(C1),&Card(C2));
+				}
+				C2 = Next(C2);
+			}
+			C1 = Next(C1);
+		}
+	}
 }
