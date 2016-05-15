@@ -148,15 +148,19 @@ void play(){
 			newround(biggerscore);	
 		}
 	}
+	
 }
 
 
-void doMeld(infoCard C, int n){
+void doMeld(infoCard C){
 	sortcard(&Hand(player_who_play),1);
-	addressCard card = SearchCard(Hand(player_who_play),C);
-	while((n--) && (card != NULL)){
-		MoveCard(&Hand(player_who_play),&Meld(player_who_play),Card(card));
-		card = Next(card);
+	addressCard P = First(Hand(player_who_play));
+	while(P != NULL){
+		addressCard Px = P;
+		P = Next(P);
+		if((Number(Px)==C.number)){
+			MoveCard(&Hand(player_who_play),&Meld(player_who_play),Card(Px));
+		}
 	}
 }
 

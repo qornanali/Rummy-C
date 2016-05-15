@@ -76,21 +76,20 @@ void drawsomechar(int x, int y, int v, int h, char c){
 }
 
 void menu_main(int x, int y){
-	cls();
-	drawshape(x,y,23,9,1);
-	gotoxy(x+2,y+2);
-	printf("MainCar v2");
-	gotoxy(x+2,y+4);
+	//cls();
+	setcolor(7);
+	drawshape(x,y,26,11,1);
+	gotoxy(x+3,y+4);
 	printf("Mulai bermain");
-	gotoxy(x+2,y+5);
+	gotoxy(x+3,y+5);
 	printf("Cara bermain");
-	gotoxy(x+2,y+6);
+	gotoxy(x+3,y+6);
 	printf("Peringkat tertinggi");
-	gotoxy(x+2,y+7);
+	gotoxy(x+3,y+7);
 	printf("Tentang Maincar");
-	gotoxy(x+2,y+8);
+	gotoxy(x+3,y+8);
 	printf("Keluar");
-	int pilihan = cursor(y+22,x+4,0,1,key_down,key_up,leftcursor,5);
+	int pilihan = cursor(x+24,y+4,0,1,key_down,key_up,leftcursor,5);
 	switch(pilihan){
 		case 1 :
 			newsession();
@@ -189,6 +188,7 @@ void input_datasession(int x, int y){
 }
 
 void menu_game(int x, int y){
+	setcolor(7);
 	cls();
 	drawshape(x+3,y+4,100,35,1);
 	addressPlayer P = First(ListPlayers);
@@ -353,7 +353,7 @@ void playermenu(int x, int y){
 	gotoxy(x+2,y+5);
 	printf("Urut Tipe");
 	gotoxy(x+2,y+6);
-	printf("Simpan Kartu");
+	printf("Trees");
 	gotoxy(x+2,y+7);
 	printf("Buang Kartu");
 	while(sudahbuang==0 || sudahambil==0){
@@ -370,6 +370,7 @@ void playermenu(int x, int y){
 			case 2 :
 				if(SizeListCard(card_on_off)>0){
 					if(sudahambil==0){
+						ClearListCard(&temp_card);
 						First(temp_card) = First(Hand(player_who_play));
 						int i = 0;
 						int n = SizeListCard(card_on_off);
@@ -382,17 +383,19 @@ void playermenu(int x, int y){
 						AddCard(&temp_card,Card(C));
 						if(trees(temp_card,Card(C))>2){
 							addressCard CO = First(card_on_off);
-							while(Next(CO)!=NULL){
-								MoveCard(&card_on_off,&Hand(player_who_play),Card(CO));
-								if(SameCard(Card(CO),Card(C))==1){
-									console();
-									getch();
+							while(CO != NULL){
+								if((SameCard(Card(CO),Card(C))==1)){
+									MoveCard(&card_on_off,&Hand(player_who_play),Card(CO));
 									break;
+								}else{
+									MoveCard(&card_on_off,&Hand(player_who_play),Card(CO));
 								}
-								CO = Next(CO);
+								CO = First(card_on_off);
 							}
-							doMeld(Card(C),trees(Hand(player_who_play),Card(C)));
-							ClearListCard(&temp_card);
+							doMeld(Card(C));
+							CreateListCard(&temp_card);
+							showhand(1,First(Hand(player_who_play)),32,36,5,0);
+							showmeld(4,50);
 							sudahambil = 1;	
 						}
 					}
@@ -407,8 +410,13 @@ void playermenu(int x, int y){
 				showhand(1,First(Hand(player_who_play)),32,36,5,0);
 				break;
 			case 5 :
-//				doMeld(Card(First(Hand(player_who_play))),1);
-//				showmeld(4,50);
+				printf("");
+				int n = SizeListCard(Hand(player_who_play));
+				int i = cursor(34,45,5,0,key_right,key_left,upcursor,n);
+				addressCard C = TraceListCard(Hand(player_who_play),i);
+				doMeld(Card(C));
+				showhand(1,First(Hand(player_who_play)),32,36,5,0);
+				showmeld(4,50);
 				break;
 			case 6 :
 				if(sudahbuang==0 && sudahambil==1){
@@ -423,4 +431,90 @@ void playermenu(int x, int y){
 		drawsomechar(x+16,y+2,6,1,' ');
 	}
 }
+
+void setcolor(unsigned color)													//mengubah warna
+{
+	HANDLE hCon = GetStdHandle(STD_OUTPUT_HANDLE); 								//membuat objek hCon
+	SetConsoleTextAttribute(hCon,color); 										//program untuk merubah warna,color akan diganti dengan nilai i nantinya
+}
+
+void everyone()
+{
+	system("color F0" );
+	gotoxy(74,15); 				printf("…ÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕª");
+	gotoxy(74,16); 				printf("∫                ∫");
+	gotoxy(74,17); 				printf("∫  €€€€€€€€€€€€  ∫");
+	gotoxy(74,18); 				printf("∫  €€€           ∫");
+	gotoxy(74,19); 				printf("∫  €€€€€€€€€€€€  ∫");
+	gotoxy(74,20);				printf("∫  €€€           ∫");
+	gotoxy(74,21); 				printf("∫  €€€€€€€€€€€€  ∫");
+	gotoxy(74,22); 				printf("∫                ∫");
+	gotoxy(74,23); 				printf("∫    EVERYONE    ∫");
+	gotoxy(74,24); 				printf("»ÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕÕº");
+	Sleep(1000);
+}
+
+void present()
+{
+	system("color 07");
+	int i;
+	i=73;
+	while(i<=85)
+	{
+		gotoxy(i+1,15);setcolor(8); 	printf("        ");
+		gotoxy(i+1,16);setcolor(8); 	printf("        ");
+		gotoxy(i+1,17); 				printf("        ");
+		gotoxy(i+1,18); 				printf("        ");
+		gotoxy(i+1,19); 				printf("         ");
+		gotoxy(i+1-15,20);					printf("   ARH GAMES PRESENT.       \n");
+		gotoxy(i+1,21); 				printf("        ");
+		gotoxy(i+1,22); 				printf("        ");
+		gotoxy(i+1,23); 				printf("       ");
+		gotoxy(i+1,24); 				printf("        ");
+		Sleep(10);
+		i++;
+	}
+}
+
+void tunggu()
+{
+	slp(1000);
+}
+
+void maincar()
+{
+	int i;
+	int j;
+	i=20;
+	j=62;
+	while(i<=40)
+	{
+		gotoxy(j-1,15); setcolor(7);	printf("   +@@`  @@@      #@@@    ''''    +@@#       ,@@@+       ,@@@;    '''';.      +@@;    \n");
+		gotoxy(i+1,16); 	printf("  @@@@@`@@@@@   `@@@@@@   @@@@   @@@@@@     @@@@@@@'    @@@@@@@   @@@@@@@`   @@@@@@   \n");
+		gotoxy(j-1,17); 	printf(" `@@@@@@@@@@@'  @@@@@@@@  @@@@  @@@@@@@@   @@@@@@@@@:  .@@@@@@@   @@@@@@@@  @@@@@@@'   \n");
+		gotoxy(i+1,18);		printf(" '@@@@@@@@@@@@  @@@@@@@@  @@@@  @@@@@@@@  @@@@@@@@@@@  @@@@@@@@'  @@@#@@@@: @@@@@@@@  \n");
+		gotoxy(j-1,19); 	printf(" '@@@ @@@ @@@@ `@@@ .@@@  @@@@  @@@  @@@  @@@@   '@@@: @@@@ @@@#  @@@  @@@' @@@ ,@@@  \n");
+		gotoxy(i+1,20);	setcolor(11);	printf(" '@@@ @@@ @@@@ `@@@ `@@@  @@@@  @@@  @@@ `@@@     ';,` @@@# @@@#  @@@ #@@@. @@@ @@@@  \n");
+		gotoxy(j-1,21);		printf(" '@@@ @@@ @@@@ `@@@#`@@@  @@@@  @@@  @@@ .@@@     ,,.` @@@@+@@@#  @@@ @@@@  ;@'`@@@`  \n");
+		gotoxy(i+1,22);		printf(" '@@@ @@@ @@@@ `@@@@`@@@  @@@@  @@@  @@@  @@@     @@@+ @@@@#@@@#  @@@ @@@    + @@@@   \n");
+		gotoxy(j-1,23);		printf(" '@@@ @@@ @@@@ `@@@@`@@@  @@@@  @@@  @@@  @@@@   #@@@  @@@@#@@@#  @@@ @@@,    .@@@`   \n");
+		gotoxy(i+1,24);	setcolor(9);	printf(" '@@@ @@@ @@@@ `@@@;`@@@  @@@@  @@@  @@@  @@@@@@@@@@@  @@@@:@@@#  @@@ @@@@    @@@@@@  \n");
+		gotoxy(j-1,25);		printf(" '@@@ @@@ @@@@ `@@@ `@@@  @@@@  @@@  @@@   @@@@@@@@@   @@@# @@@#  @@@ .@@@   ,@@@@@@  \n");
+		gotoxy(i+1,26);		printf(" '@@@ @@@ @@@@ `@@@ `@@@  @@@@  @@@  @@@    @@@@@@@`   @@@# @@@#  @@@  @@@@  @@@@@@@  \n");           
+		slp(15);                     
+		i++;
+		j--;
+	}
+}
+
+void loadgame(){
+	everyone();
+	present();
+	tunggu();
+	maincar();
+	slp(1000);
+	menu_main(65,30);
+	getch();
+}
+
 

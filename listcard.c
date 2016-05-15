@@ -121,7 +121,7 @@ void MoveCard(ListCard * L1, ListCard * L2, infoCard X){
 void ListCardInfo(ListCard L){
 	addressCard P = First(L);
 	while(P != NULL){
-	 		printf("%d,%d\n",Number(P),Type(P));
+	 		printf("%d,%c\n",Number(P),deftypecard(Type(P)));
 	 		P = Next(P);
 	}
  	printf("size card %d",SizeListCard(L));
@@ -189,14 +189,13 @@ void sortcard(ListCard * L, int opt){
 int trees(ListCard L, infoCard C){
 	sortcard(&L,1);
 	int n = 0;
-	addressCard P = SearchCard(L,C);
-	while(P != NULL){
-		if(Number(P)==C.number){
-			n++;
-			P = Next(P);
-		}else{
-			break;
-		}
+	addressCard P = First(L);
+	while(P != NULL && (Number(P)!=C.number)){
+		P = Next(P);
+	}
+	while(P != NULL && (Number(P)==C.number)){
+		n++;
+		P = Next(P);
 	}
 	return n;
 }

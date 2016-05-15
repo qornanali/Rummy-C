@@ -126,7 +126,7 @@ void PrepareCard();
 void PreparePlayer(string * name, char bot);
 void PrepareInfoPlayer(infoPlayer * X);
 void newround(addressPlayer firstplayer);
-void doMeld(infoCard C, int n);
+void doMeld(infoCard C);
 void doDraw();
 void doOff(infoCard C1);
 void newsession();
@@ -137,6 +137,11 @@ void play();
 int checkmeld(ListCard L);
 
 /*ui.c*/
+void setcolor(unsigned color);
+void everyone();
+void present();
+void tunggu();
+void maincar();
 void slp(int ms);
 void gotoxy(int x, int y);
 void cls();
@@ -154,9 +159,13 @@ void showdeck(int x, int y);
 void showoff(int x, int y);
 void showmeld(int x, int y);
 void playermenu(int x, int y);
+void loadgame();
 
 /*bot.c*/
 void botmove();
+infoCard whichcardoff();
+infoCard whichcardtake();
+addressCard checktrees();
 
 /*Global Variable*/
 ListCard card_on_deck,card_on_off,temp_card;
