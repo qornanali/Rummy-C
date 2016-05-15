@@ -292,15 +292,18 @@ void showdeck(int x, int y){
 }
 
 void showoff(int x, int y){
-	int n = SizeListCard(card_on_off);
 	gotoxy(x,y);
+	int n = SizeListCard(card_on_off);
+	int i = 0;
 	printf("Buangan %d",n);
-	addressCard first = First(card_on_off);
-	if(n>7){
-		n -= 7;
-		first = TraceListCard(card_on_off,n);
+	ClearListCard(&temp_card);
+	addressCard P = First(card_on_off);
+	while(P != NULL && i < 7){
+		AddCard(&temp_card,Card(P));
+		P = Next(P);
+		i++;
 	}
-	showhand(1,first,x,y+1,5,0);
+	showhand(1,First(temp_card),x,y+1,5,0);
 }
 
 void showmeld(int x, int y){
@@ -358,26 +361,41 @@ void playermenu(int x, int y){
 		switch(pilihan){
 			case 1 :
 				if(sudahambil==0){
-					doDraw(&Hand(player_who_play));
+					doDraw();
 					showhand(1,First(Hand(player_who_play)),32,36,5,0);
 					showdeck(20,10);
 					sudahambil = 1;	
 				}
 				break;
 			case 2 :
-				if(sudahambil==0){
-//					int i = 1, n = 0, j = 1;
-//					n = SizeListCard(card_on_off);
-//					if(n>7){
-//						i += n - 7; 
-//						n = 7;
-//					}
-//					int pilihan = cursor(20,22,3,0,key_left,key_right,upcursor,n);
-//					addressCard C = TraceListCard(card_on_off,i);
-//					addressCard Prev = TraceListCard(card_on_off,i-1);
-//					Next(Prev) = NULL;
-//					
-//					sudahambil = 1;
+				if(SizeListCard(card_on_off)>0){
+					if(sudahambil==0){
+						First(temp_card) = First(Hand(player_who_play));
+						int i = 0;
+						int n = SizeListCard(card_on_off);
+						if(n>7){
+							n = 7;
+							i = n - 7;
+						}
+						int pilih = cursor(23,32,5,0,key_right,key_left,upcursor,n);
+						addressCard C = TraceListCard(card_on_off,pilih + i);
+						AddCard(&temp_card,Card(C));
+						if(trees(temp_card,Card(C))>2){
+							addressCard CO = First(card_on_off);
+							while(Next(CO)!=NULL){
+								MoveCard(&card_on_off,&Hand(player_who_play),Card(C));
+								if(SameCard(Card(CO),Card(C))==1){
+									console();
+									getch();
+									break;
+								}
+								CO = Next(CO);
+							}
+							doMeld(Card(C),trees(Hand(player_who_play),Card(C)));
+							ClearListCard(&temp_card);
+							sudahambil = 1;	
+						}
+					}
 				}
 				break;
 			case 3 :
@@ -389,8 +407,8 @@ void playermenu(int x, int y){
 				showhand(1,First(Hand(player_who_play)),32,36,5,0);
 				break;
 			case 5 :
-				doMeld(&Hand(player_who_play),&Meld(player_who_play),Card(First(Hand(player_who_play))),1);
-				showmeld(4,50);
+//				doMeld(Card(First(Hand(player_who_play))),1);
+//				showmeld(4,50);
 				break;
 			case 6 :
 				if(sudahbuang==0 && sudahambil==1){
@@ -398,7 +416,7 @@ void playermenu(int x, int y){
 					int i = cursor(34,45,5,0,key_right,key_left,upcursor,n);
 					addressCard C = TraceListCard(Hand(player_who_play),i);
 					sudahbuang = 1;
-					doOff(&Hand(player_who_play),Card(C));
+					doOff(Card(C));
 				}
 				break;
 		}

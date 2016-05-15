@@ -185,3 +185,18 @@ void sortcard(ListCard * L, int opt){
 		}
 	}
 }
+
+int trees(ListCard L, infoCard C){
+	sortcard(&L,1);
+	int n = 0;
+	addressCard P = SearchCard(L,C);
+	while(P != NULL){
+		if(Number(P)==C.number){
+			n++;
+			P = Next(P);
+		}else{
+			break;
+		}
+	}
+	return n;
+}

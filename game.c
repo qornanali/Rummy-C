@@ -76,7 +76,7 @@ void givecardtoplayers(){
 	if(SizeListPlayer(ListPlayers)==2){
 		n = 10;
 	}else{
-		n = 7;
+		n = 6;
 	}
 	while(n--){
 		addressPlayer P = First(ListPlayers);
@@ -101,6 +101,11 @@ void console(){
 	if(SizeListCard(card_on_off)>0){
 		puts("off : ");
 		ListCardInfo(card_on_off);	
+	}
+	puts(".");
+	if(SizeListCard(temp_card)>0){
+		puts("temp : ");
+		ListCardInfo(temp_card);	
 	}
 }
 
@@ -146,20 +151,21 @@ void play(){
 }
 
 
-void doMeld(ListCard * L1, ListCard * L2, infoCard C, int n){
-	addressCard card = SearchCard(*L1,C);
+void doMeld(infoCard C, int n){
+	sortcard(&Hand(player_who_play),1);
+	addressCard card = SearchCard(Hand(player_who_play),C);
 	while((n--) && (card != NULL)){
-		MoveCard(L1,L2,Card(card));
+		MoveCard(&Hand(player_who_play),&Meld(player_who_play),Card(card));
 		card = Next(card);
 	}
 }
 
-void doDraw(ListCard * L){
-	MoveCard(&card_on_deck,L,Card(First(card_on_deck)));
+void doDraw(){
+	MoveCard(&card_on_deck,&Hand(player_who_play),Card(First(card_on_deck)));
 }
 
-void doOff(ListCard * L, infoCard C1){
-	MoveCard(L,&card_on_off,C1);
+void doOff(infoCard C1){
+	MoveCard(&Hand(player_who_play),&card_on_off,C1);
 }
 
 

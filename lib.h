@@ -87,6 +87,7 @@ void MoveCard(ListCard * L1, ListCard * L2, infoCard X);
 void ListCardInfo(ListCard L);
 void SwapCard(infoCard * X, infoCard * Y);
 void sortcard(ListCard * L, int opt);
+int trees(ListCard L, infoCard C);
 
 /*listplayer.c*/
 typedef struct{
@@ -125,9 +126,9 @@ void PrepareCard();
 void PreparePlayer(string * name, char bot);
 void PrepareInfoPlayer(infoPlayer * X);
 void newround(addressPlayer firstplayer);
-void doMeld(ListCard * L1, ListCard * L2, infoCard C, int n);
-void doDraw(ListCard * L);
-void doOff(ListCard * L, infoCard C1);
+void doMeld(infoCard C, int n);
+void doDraw();
+void doOff(infoCard C1);
 void newsession();
 void console();
 void shuffledeck();
@@ -153,7 +154,6 @@ void showdeck(int x, int y);
 void showoff(int x, int y);
 void showmeld(int x, int y);
 void playermenu(int x, int y);
-void choosefromoff();
 
 /*bot.c*/
 void botmove();
