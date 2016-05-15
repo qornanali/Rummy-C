@@ -383,7 +383,7 @@ void playermenu(int x, int y){
 						if(trees(temp_card,Card(C))>2){
 							addressCard CO = First(card_on_off);
 							while(Next(CO)!=NULL){
-								MoveCard(&card_on_off,&Hand(player_who_play),Card(C));
+								MoveCard(&card_on_off,&Hand(player_who_play),Card(CO));
 								if(SameCard(Card(CO),Card(C))==1){
 									console();
 									getch();
