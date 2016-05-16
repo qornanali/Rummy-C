@@ -105,6 +105,7 @@ typedef struct tElmtListPlayer {
 typedef struct {
      addressPlayer First;
 } ListPlayer;
+
 addressPlayer AllocPlayer (infoPlayer X);
 addressPlayer SearchPlayer (ListPlayer L, infoPlayer X);
 int AddPlayer (ListPlayer * L, infoPlayer X);
@@ -164,8 +165,7 @@ void loadgame();
 /*bot.c*/
 void botmove();
 infoCard whichcardoff();
-infoCard whichcardtake();
-addressCard checktrees();
+addressCard whichcardtake();
 
 /*Global Variable*/
 ListCard card_on_deck,card_on_off,temp_card;
