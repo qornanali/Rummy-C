@@ -100,6 +100,8 @@ void menu_main(int x, int y){
 }
 
 int cursor(int x, int y, int xp, int yp, int key1, int key2, int chcursor, int option){
+	awal :
+	printf("");
 	int select = 1;
 	int input;
 	gotoxy(x,y);
@@ -136,6 +138,11 @@ int cursor(int x, int y, int xp, int yp, int key1, int key2, int chcursor, int o
 		gotoxy(x,y);printf("%c",chcursor);
 	}
 	while(input!=key_enter && input!=key_esc);
+	if(input==key_esc){
+		console();
+		getch();
+		goto awal;
+	}
 	return select;
 }
 
@@ -382,17 +389,9 @@ void playermenu(int x, int y){
 						addressCard C = TraceListCard(card_on_off,pilih + i);
 						AddCard(&temp_card,Card(C));
 						if(trees(temp_card,Card(C))>2){
-							addressCard CO = First(card_on_off);
-							while(CO != NULL){
-								if((SameCard(Card(CO),Card(C))==1)){
-									MoveCard(&card_on_off,&Hand(player_who_play),Card(CO));
-									break;
-								}else{
-									MoveCard(&card_on_off,&Hand(player_who_play),Card(CO));
-								}
-								CO = First(card_on_off);
-							}
+							doTake(Card(C));
 							doMeld(Card(C));
+							showoff(20,22);
 							CreateListCard(&temp_card);
 							showhand(1,First(Hand(player_who_play)),32,36,5,0);
 							showmeld(4,50);

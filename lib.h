@@ -129,6 +129,7 @@ void PrepareInfoPlayer(infoPlayer * X);
 void newround(addressPlayer firstplayer);
 void doMeld(infoCard C);
 void doDraw();
+void doTake(infoCard C);
 void doOff(infoCard C1);
 void newsession();
 void console();
@@ -136,6 +137,7 @@ void shuffledeck();
 void givecardtoplayers();
 void play();
 int checkmeld(ListCard L);
+
 
 /*ui.c*/
 void setcolor(unsigned color);

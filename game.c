@@ -37,7 +37,7 @@ void PreparePlayer(string * name, char bot){
 void newsession(){
 	endsession = 0;
 	roundcount = 0;
-	cheaton = 0;
+	cheaton = 1;
 	input_dataplayer(3,3);
 	input_datasession(3,3);
 	newround(First(ListPlayers));
@@ -172,5 +172,14 @@ void doOff(infoCard C1){
 	MoveCard(&Hand(player_who_play),&card_on_off,C1);
 }
 
-
+void doTake(infoCard C){
+	addressCard CO = First(card_on_off);
+	while(CO != NULL){
+		MoveCard(&card_on_off,&Hand(player_who_play),Card(CO));
+		if((SameCard(Card(CO),C)==1)){
+			break;
+		}
+		CO = First(card_on_off);
+	}
+}
 
