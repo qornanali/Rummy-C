@@ -61,116 +61,124 @@ typedef char * string;
 
 /*listcard.c*/
 typedef struct{
-	int type;
-	int number;
-} infoCard;
+	int type; //jenis kartu
+	int number; //nomor kartu
+} infoCard; //komposit info kartu
 typedef struct tElmtListCard *addressCard;
 typedef struct tElmtListCard {
-    infoCard info;
-    addressCard  next;
-    } ElmtListCard;
+    infoCard info; 
+    addressCard  next; //alamat elmt selanjutnya
+    } ElmtListCard; //komposit kartu
 typedef struct {
      addressCard First;
-} ListCard;
+} ListCard; //komposit list kartu
 
-addressCard AllocCard (infoCard X);
-addressCard SearchCard (ListCard L, infoCard X);
-addressCard TraceListCard(ListCard L, int index);
-int AddCard (ListCard * L, infoCard X);
-int SizeListCard(ListCard L);
-int SameCard(infoCard X, infoCard Y);
-void ClearListCard (ListCard * L);
-void CreateListCard (ListCard * L);
-void DeAllocCard (addressCard P);
-void DeleteCard(ListCard * L, infoCard X);
-void MoveCard(ListCard * L1, ListCard * L2, infoCard X);
-void ListCardInfo(ListCard L);
-void SwapCard(infoCard * X, infoCard * Y);
-void sortcard(ListCard * L, int opt);
-int trees(ListCard L, infoCard C);
+
+/*created : Ali*/
+addressCard AllocCard (infoCard X); //mengalokasikan memori utk elmt baru
+addressCard SearchCard (ListCard L, infoCard X); //mencari kartu 
+addressCard TraceListCard(ListCard L, int index); //mendapatkand data kartu di index ke berapa
+int AddCard (ListCard * L, infoCard X); //menambah elmt kartu baru
+int SizeListCard(ListCard L); //menghitung jml elmn di list kartu
+int SameCard(infoCard X, infoCard Y); //mengecek apakah 2 kartu itu sama atau tidak
+void ClearListCard (ListCard * L); //menghapus seluruh isi kartu
+void CreateListCard (ListCard * L); //membuat list kartu
+void DeAllocCard (addressCard P); //mengdealokasikan memori
+void DeleteCard(ListCard * L, infoCard X); //menghapus kartu
+void MoveCard(ListCard * L1, ListCard * L2, infoCard X); //memindahkan kartu dari ke list yang lain
+void ListCardInfo(ListCard L); //menampilkan info list kartu
+void SwapCard(infoCard * X, infoCard * Y); //menukar isi kartu
+void sortcard(ListCard * L, int opt); //mengurutkan kartu
+int trees(ListCard L, infoCard C); //mengecek jumlah trees dalam list
 
 /*listplayer.c*/
 typedef struct{
-	string * name;
-	int score;
-	char bot;
-	ListCard card_on_hand;
-	ListCard card_on_meld;
-} infoPlayer;
+	string * name; //nama pemain
+	int score; //jumlah skor
+	char bot; //apakah bot atau bukan
+	ListCard card_on_hand; //list kartu di tangan
+	ListCard card_on_meld; //list kartu yang sudah jadi
+} infoPlayer; //komposit info pemain
 typedef struct tElmtListPlayer *addressPlayer;
 typedef struct tElmtListPlayer {
     infoPlayer info;
-    addressPlayer  next;
-    } ElmtListPlayer;
+    addressPlayer  next; //alamat elmt selanjutnya
+    } ElmtListPlayer; //komposit pemain
 typedef struct {
      addressPlayer First;
-} ListPlayer;
+} ListPlayer; //komposit list pemain
 
-addressPlayer AllocPlayer (infoPlayer X);
-addressPlayer SearchPlayer (ListPlayer L, infoPlayer X);
-int AddPlayer (ListPlayer * L, infoPlayer X);
-int SizeListPlayer(ListPlayer L);
-void ClearListPlayer (ListPlayer * L);
-void CreateListPlayer (ListPlayer * L);
-void DeAllocPlayer (addressPlayer P);
-void DeletePlayer(ListPlayer * L, infoPlayer X);
-void ListPlayerInfo(ListPlayer L);
+/*created : Ali*/
+addressPlayer AllocPlayer (infoPlayer X); //mengalokasikan memori untuk elmt baru pemain
+addressPlayer SearchPlayer (ListPlayer L, infoPlayer X); //mencari data pemain di suatu list
+int AddPlayer (ListPlayer * L, infoPlayer X); //menambah elmt baru pemain 
+int SizeListPlayer(ListPlayer L); //menghitung jumlah pemain dalam list
+void ClearListPlayer (ListPlayer * L); //menghapus semua data pemain
+void CreateListPlayer (ListPlayer * L); //membuat list pemain
+void DeAllocPlayer (addressPlayer P); //mengdealokasikan memori
+void DeletePlayer(ListPlayer * L, infoPlayer X); //menghapus elmt pemain
+void ListPlayerInfo(ListPlayer L); //menampilkan info list pemain
 
 /*lib.c*/
-int random(int a, int b);
-char deftypecard(int type);
-int calcscore(infoPlayer P);
-int point(infoCard C);
+/*created : Ali*/
+int random(int a, int b); //mendapat acakan nilai
+char deftypecard(int type); //menampilkan karakter kartu
+int calcscore(infoPlayer P); //mengkalkulasikan skor
+int point(infoCard C); //mendapatkan data poin dari kartu
 
 /*game.c*/
-void PrepareCard();
-void PreparePlayer(string * name, char bot);
-void PrepareInfoPlayer(infoPlayer * X);
-void newround(addressPlayer firstplayer);
-void doMeld(infoCard C);
-void doDraw();
-void doTake(infoCard C);
-void doOff(infoCard C1);
-void newsession();
-void console();
-void shuffledeck();
-void givecardtoplayers();
-void play();
-int checkmeld(ListCard L);
+/*created : Ali*/
+void PrepareCard(); //mempersiapkan kartu untuk game
+void PreparePlayer(string * name, char bot); //mempersiapkan pemain untuk game
+void PrepareInfoPlayer(infoPlayer * X); //mempersiapkan data pemain untuk game
+void newround(addressPlayer firstplayer); //membuat ronde baru
+void doMeld(infoCard C); //melakukan proses menyimpan kartu
+void doDraw(); //mencangkul kartu
+void doTake(infoCard C); //mengambil kartu dari buangan
+void doOff(infoCard C1); //membuang kartu
+void newsession(); //membuat sesi baru
+void console(); //menampilkan seluruh data permainan
+void shuffledeck(); //mengocok deck
+void givecardtoplayers(); //membagi2 kartu dari deck ke pemain
+void play(); //memulai permainan
+int checkmeld(ListCard L); //mengecek apakah kartu bisa disimpan atau tidak
 
 
 /*ui.c*/
-void setcolor(unsigned color);
+/*created : Hamzah*/
+void setcolor(unsigned color); 
 void everyone();
 void present();
 void tunggu();
 void maincar();
-void slp(int ms);
-void gotoxy(int x, int y);
-void cls();
-void drawshape(int x, int y, int v, int h, int type);
-void drawsomechar(int x, int y, int v, int h, char c);
-void menu_main(int x, int y);
-int cursor(int x, int y, int xp, int yp, int key1, int key2, int chcursor, int option);
-void input_dataplayer(int x, int y);
-void input_datasession(int x, int y);
-void menu_game(int x, int y);
-void showhand(int show, addressCard first, int x, int y, int xp, int yp);
-void showcard(infoCard card, int x, int y);
-void showblankcard(int x, int y);
-void showdeck(int x, int y);
-void showoff(int x, int y);
-void showmeld(int x, int y);
-void playermenu(int x, int y);
-void loadgame();
+/*created : Ali*/
+void slp(int ms); //membuat jeda pada console
+void gotoxy(int x, int y); //memindahkan kursor
+void cls(); //clearscreen
+void drawshape(int x, int y, int v, int h, int type); //menampilkan kotak
+void drawsomechar(int x, int y, int v, int h, char c); //menampilkan suatu karakter
+void menu_main(int x, int y); //menampilkan menu utama
+int cursor(int x, int y, int xp, int yp, int key1, int key2, int chcursor, int option); //menampilan kursor
+void input_dataplayer(int x, int y); //menampilkan menu untuk memasukkan data pemain
+void input_datasession(int x, int y); //menampikan menu untuk membuat sesi baru
+void menu_game(int x, int y); //menampilkan menu permainan
+void showhand(int show, addressCard first, int x, int y, int xp, int yp); //menampilkan visualisasi kartu di tangan
+void showcard(infoCard card, int x, int y); //menampilkan visualisasi kartu
+void showblankcard(int x, int y); //menampilkan visualisasi kartu terbalik
+void showdeck(int x, int y); //menampilkan visualisasi deck
+void showoff(int x, int y); //menampilkan visualisasi buangan
+void showmeld(int x, int y); //menampilkan visualisasi simpanan
+void playermenu(int x, int y); //menampilkan menu pemain
+void loadgame(); //memuat ui permainan
 
 /*bot.c*/
-void botmove();
-infoCard whichcardoff();
-addressCard whichcardtake();
+/*created : Ali*/
+void botmove(); //algoritma pergerakan bot
+infoCard whichcardoff(); //memilih kartu mana yang dibuang
+addressCard whichcardtake(); //memilih kartu mana yang diambil
 
 /*Global Variable*/
-ListCard card_on_deck,card_on_off,temp_card;
+ListCard card_on_deck,card_on_off,temp_card; 
 ListPlayer ListPlayers;
 addressPlayer player_who_play,winner;
 int roundcount,maxround,maxscore,cheaton,endround,endsession;
