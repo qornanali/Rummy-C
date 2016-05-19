@@ -221,7 +221,8 @@ void menu_game(int x, int y){
 
 void showhand(int show, addressCard first, int x, int y, int xp, int yp){
 	int x1,y1;
-	x1 = x;
+	gotoxy(x,y);
+	x1 = x + 1;
 	y1 = y;
 	addressCard card = first;
 	while(card != NULL){
@@ -390,6 +391,8 @@ void playermenu(int x, int y){
 						AddCard(&temp_card,Card(C));
 						if(trees(temp_card,Card(C))>2){
 							doTake(Card(C));
+							showhand(1,First(Hand(player_who_play)),32,36,5,0);
+							getch();
 							doMeld(Card(C));
 							showoff(20,22);
 							CreateListCard(&temp_card);

@@ -3,7 +3,6 @@
 void botmove(){
 	addressCard C = whichcardtake();
 	if(C != NULL){
-		printf("ambil : %d.%c\n",Number(C),deftypecard(Type(C)));
 		doTake(Card(C));		
 		doMeld(Card(C));
 	}else{
@@ -11,7 +10,6 @@ void botmove(){
 	}
 	botmeld();
 	infoCard off = whichcardoff();
-	printf("buang : %d.%c\n",off.number,deftypecard(off.type));
 	doOff(off);
 }
 
@@ -67,7 +65,6 @@ void botmeld(){
 			while(i <= t){
 				X = T;
 				T = Next(T);
-				printf(" meld : %d.%c\n",Number(X),deftypecard(Type(X)));
 				doMeld(Card(X));
 				i++;
 			}
@@ -90,13 +87,11 @@ infoCard whichcardoff(){
 			tree = t;
 			poin = p;
 		}else
-		if(t==tree && poin>p){
+		if(t==tree && p>poin){
 			R = O;
 			poin = p;	
 		}
 		O = Next(O);
-		printf("%d.%c ",Number(R),deftypecard(Type(R)));
-		getch();
 	}
 	return Card(R);
 }

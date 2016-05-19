@@ -37,7 +37,7 @@ void PreparePlayer(string * name, char bot){
 void newsession(){
 	endsession = 0;
 	roundcount = 0;
-	cheaton = 1;
+	cheaton = 0;
 	input_dataplayer(3,3);
 	input_datasession(3,3);
 	newround(First(ListPlayers));
@@ -155,12 +155,15 @@ void play(){
 void doMeld(infoCard C){
 	sortcard(&Hand(player_who_play),1);
 	addressCard P = First(Hand(player_who_play));
-	while(P != NULL){
-		addressCard Px = P;
+	while(P != NULL && (Number(P)!=C.number)){
+		P = Next(P);	
+	}
+	while(P != NULL && (Number(P)==C.number)){
+	//	addressCard Px = P;
+		AddCard(&Meld(player_who_play),Card(P));
+		DeleteCard(&Hand(player_who_play),Card(P));
 		P = Next(P);
-		if((Number(Px)==C.number)){
-			MoveCard(&Hand(player_who_play),&Meld(player_who_play),Card(Px));
-		}
+	//	MoveCard(&Hand(player_who_play),&Meld(player_who_play),Card(Px));
 	}
 }
 
