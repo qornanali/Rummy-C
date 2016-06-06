@@ -1,3 +1,14 @@
+/*
+----------------------------------------------------------------------
+File           : ui.c
+Deskripsi      : method untuk membuat ui
+Dibuat oleh    : 	-Ali Qornan Jaisyurrahman		151511007
+			-Muhammad Hamzhya Salsatinnov Hairy	151511017
+			-Riyan Gandarma  			151511028
+Tanggal dibuat : 09 Mei 2016
+----------------------------------------------------------------------
+*/
+
 #include "lib.h"
 
 void gotoxy(int x, int y){
@@ -443,16 +454,16 @@ void setcolor(unsigned color)													//mengubah warna
 void everyone()
 {
 	system("color F0" );
-	gotoxy(74,15); 				printf("ЩЭЭЭЭЭЭЭЭЭЭЭЭЭЭЭЭЛ");
-	gotoxy(74,16); 				printf("К                К");
-	gotoxy(74,17); 				printf("К  лллллллллллл  К");
-	gotoxy(74,18); 				printf("К  ллл           К");
-	gotoxy(74,19); 				printf("К  лллллллллллл  К");
-	gotoxy(74,20);				printf("К  ллл           К");
-	gotoxy(74,21); 				printf("К  лллллллллллл  К");
-	gotoxy(74,22); 				printf("К                К");
-	gotoxy(74,23); 				printf("К    EVERYONE    К");
-	gotoxy(74,24); 				printf("ШЭЭЭЭЭЭЭЭЭЭЭЭЭЭЭЭМ");
+	gotoxy(74,15); 				printf("\C9\CD\CD\CD\CD\CD\CD\CD\CD\CD\CD\CD\CD\CD\CD\CDЭЛ");
+	gotoxy(74,16); 				printf("\BA                \BA");
+	gotoxy(74,17); 				printf("\BA  \DB\DB\DB\DB\DB\DB\DB\DB\DB\DB\DB\DB  \BA");
+	gotoxy(74,18); 				printf("\BA  \DB\DB\DB           \BA");
+	gotoxy(74,19); 				printf("\BA  \DB\DB\DB\DB\DB\DB\DB\DB\DB\DB\DB\DB  \BA");
+	gotoxy(74,20);				printf("\BA  \DB\DB\DB           \BA");
+	gotoxy(74,21); 				printf("\BA  \DB\DB\DB\DB\DB\DB\DB\DB\DB\DB\DB\DB  \BA");
+	gotoxy(74,22); 				printf("\BA                \BA");
+	gotoxy(74,23); 				printf("\BA    EVERYONE    \BA");
+	gotoxy(74,24); 				printf("\C8\CD\CD\CD\CD\CD\CD\CD\CD\CD\CD\CD\CD\CD\CD\CDЭМ");
 	Sleep(1000);
 }
 
